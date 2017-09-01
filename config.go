@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package redisgo // import "code.hooto.com/lynkdb/redisgo"
+package redisgo // import "github.com/lynkdb/redisgo"
 
 type Config struct {
 

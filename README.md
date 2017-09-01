@@ -15,7 +15,7 @@ redisgo use redisgo.NewConnector(redisgo.Config{...}) to create connection with 
 package main
 
 import (
-	"code.hooto.com/lynkdb/redisgo"
+	"github.com/lynkdb/redisgo"
 )
 
 func main() {
@@ -34,7 +34,6 @@ func main() {
 
 	conn.Close()
 }
-
 ```
 
 Request: all Redis operations go with ```redisgo.Connector.Cmd()```, it accepts variable arguments. The first argument of Cmd() is the Redis command, for example "get", "set", etc. The rest arguments(maybe none) are the arguments of that command.

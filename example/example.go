@@ -17,7 +17,7 @@ package main
 import (
 	"fmt"
 
-	"code.hooto.com/lynkdb/redisgo"
+	"github.com/lynkdb/redisgo"
 )
 
 func main() {
