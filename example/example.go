@@ -25,7 +25,7 @@ func main() {
 	fmt.Println("Connect")
 	conn, err := redisgo.NewConnector(redisgo.Config{
 		Host:    "127.0.0.1",
-		Port:    6378,
+		Port:    6379,
 		Timeout: 3, // timeout in second, default to 10
 		MaxConn: 1, // max connection number, default to 1
 		// Auth:    "foobared",

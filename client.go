@@ -96,6 +96,22 @@ func (c *client) Cmd(cmd string, args ...interface{}) *Result {
 	return rs
 }
 
+func cmd_parse_read(reader *bufio.Reader, size int) ([]byte, error) {
+	bs := make([]byte, size)
+	ni := 0
+	for {
+		n, err := reader.Read(bs[ni:])
+		if err != nil {
+			return nil, err
+		}
+		if (ni + n) >= size {
+			break
+		}
+		ni += n
+	}
+	return bs, nil
+}
+
 func (c *client) cmd_parse() (*Result, error) {
 
 	bs, err := c.reader.ReadBytes('\n')
@@ -128,8 +144,8 @@ func (c *client) cmd_parse() (*Result, error) {
 			return nil, err_parse
 		}
 		if size > 0 {
-			bs2 := make([]byte, size+2)
-			if _, err := c.reader.Read(bs2); err != nil {
+			bs2, err := cmd_parse_read(c.reader, size+2)
+			if err != nil {
 				return nil, err
 			}
 			rs.data = bytes_clone(bs2[:len(bs2)-2])
@@ -189,8 +205,8 @@ func cmd_parse_array(rs *Result, reader *bufio.Reader) error {
 				return err_parse
 			}
 			if size > 0 {
-				bs2 := make([]byte, size+2)
-				if _, err := reader.Read(bs2); err != nil {
+				bs2, err := cmd_parse_read(reader, size+2)
+				if err != nil {
 					return err
 				}
 				rs.Items = append(rs.Items, &Result{
