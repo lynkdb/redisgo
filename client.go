@@ -50,6 +50,7 @@ func newClient(copts *connOptions) (*client, error) {
 	}
 
 	if copts.auth != "" {
+		cli.sock.SetDeadline(time.Now().Add(cli.copts.timeout))
 		if rs := cli.Cmd("auth", copts.auth); !rs.OK() {
 			return nil, err_auth
 		}

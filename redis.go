@@ -91,10 +91,29 @@ func NewConnector(cfg Config) (*Connector, error) {
 }
 
 func (c *Connector) Cmd(cmd string, args ...interface{}) *Result {
-	cli, _ := c.pull()
-	defer c.push(cli)
 
-	return cli.Cmd(cmd, args...)
+	cli, _ := c.pull()
+
+	var rs *Result
+
+	for try := 1; try <= 3; try++ {
+
+		rs = cli.Cmd(cmd, args...)
+		if rs.Status != ResultNetworkException {
+			break
+		}
+
+		time.Sleep(time.Duration(try) * time.Second)
+
+		if cn, err := newClient(c.copts); err == nil {
+			cli.Close()
+			cli = cn
+		}
+	}
+
+	c.push(cli)
+
+	return rs
 }
 
 func (c *Connector) Close() {
