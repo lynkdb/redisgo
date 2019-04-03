@@ -166,3 +166,116 @@ func (r *Result) KvEach(fn func(key, value *Result)) int {
 	}
 	return r.KvLen()
 }
+
+func (rs *Result) KvList() []*ResultEntry {
+	ls := []*ResultEntry{}
+	for i := 1; i < len(rs.Items); i += 2 {
+		ls = append(ls, &ResultEntry{
+			Key:   rs.Items[i-1].data,
+			Value: rs.Items[i].data,
+		})
+	}
+	return ls
+}
+
+type ResultEntry struct {
+	Key   ResultBytes
+	Value ResultBytes
+}
+
+// Universal Bytes
+type ResultBytes []byte
+
+func (rb ResultBytes) Bytes() []byte {
+	return rb
+}
+
+func (rb ResultBytes) String() string {
+	return string(rb)
+}
+
+func (rb ResultBytes) Bool() bool {
+	if len(rb) > 0 {
+		if b, err := strconv.ParseBool(string(rb)); err == nil {
+			return b
+		}
+	}
+	return false
+}
+
+// int
+func (rb ResultBytes) Int() int {
+	return int(rb.Int64())
+}
+
+func (rb ResultBytes) Int8() int8 {
+	return int8(rb.Int64())
+}
+
+func (rb ResultBytes) Int16() int16 {
+	return int16(rb.Int64())
+}
+
+func (rb ResultBytes) Int32() int32 {
+	return int32(rb.Int64())
+}
+
+func (rb ResultBytes) Int64() int64 {
+	if len(rb) > 0 {
+		if i64, err := strconv.ParseInt(string(rb), 10, 64); err == nil {
+			return i64
+		}
+	}
+	return 0
+}
+
+// unsigned int
+func (rb ResultBytes) Uint() uint {
+	return uint(rb.Uint64())
+}
+
+func (rb ResultBytes) Uint8() uint8 {
+	return uint8(rb.Uint64())
+}
+
+func (rb ResultBytes) Uint16() uint16 {
+	return uint16(rb.Uint64())
+}
+
+func (rb ResultBytes) Uint32() uint32 {
+	return uint32(rb.Uint64())
+}
+
+func (rb ResultBytes) Uint64() uint64 {
+	if len(rb) > 0 {
+		if i64, err := strconv.ParseUint(string(rb), 10, 64); err == nil {
+			return i64
+		}
+	}
+	return 0
+}
+
+// float
+func (rb ResultBytes) Float32() float32 {
+	return float32(rb.Float64())
+}
+
+func (rb ResultBytes) Float64() float64 {
+
+	if len(rb) < 1 {
+		return 0
+	}
+
+	if f64, err := strconv.ParseFloat(string(rb), 64); err == nil {
+		return f64
+	}
+
+	return 0
+}
+
+func (rb ResultBytes) JsonDecode(v interface{}) error {
+	if len(rb) < 2 {
+		return errors.New("json: invalid format")
+	}
+	return json.Unmarshal(rb, &v)
+}

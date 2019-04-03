@@ -170,8 +170,11 @@ func main() {
 		if rs := conn.Cmd("hgetall", "zone"); rs.OK() && rs.KvLen() == 2 {
 			print_ok(fmt.Sprintf("OK multi len: %d", rs.KvLen()))
 			rs.KvEach(func(k, v *redisgo.Result) {
-				print_ok(fmt.Sprintf("  key:%s value:%s", k.String(), v.String()))
+				print_ok(fmt.Sprintf("  KvEach key:%s value:%s", k.String(), v.String()))
 			})
+			for _, v := range rs.KvList() {
+				print_ok(fmt.Sprintf("  KvList key:%s value:%s", v.Key, v.Value))
+			}
 		} else {
 			print_err("ER " + rs.String())
 		}

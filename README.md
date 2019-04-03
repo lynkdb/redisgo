@@ -97,6 +97,7 @@ use the following method to get a dynamic data type what you want to need.
 * redisgo.Result.JsonDecode(obj interface{}) error
 * redisgo.Result.List() []*Result
 * redisgo.Result.KvLen() int
+* redisgo.Result.KvList() []*ResultEntry
 * redisgo.Result.KvEach(fn func(key, value *redisgo.Result)) int
 
 Examples:
