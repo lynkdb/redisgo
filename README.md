@@ -121,6 +121,25 @@ if rs := conn.Cmd("get", "key-json"); rs.OK() {
 
 the more examples of result.APIs can visit: [example/example.go](<example/example.go>)
 
+## Performance
+
+
+### test environment
+
+* CPU: 4 x Intel i7-7700 CPU @ 3.60GHz
+* OS: CentOS 7.7.1908 x86_64 
+* data keys: 40 bytes each
+* data values: 1024 bytes each 
+* redis-server: 5.0.7 (disable save the DB on disk)
+
+### typical performance in client num with 1, 10 and 50:
+
+![typical-benchmark](bench/lynkbench_throughput_avg.svg)
+
+![typical-benchmark](bench/lynkbench_latency_avg.svg)
+
+
+
 ## Refer URLs
 * [Official Redis Protocol specification](https://redis.io/topics/protocol) Redis Protocol specification
 * [Official Commands documentation](https://redis.io/commands) complete list of all avilable commands.
