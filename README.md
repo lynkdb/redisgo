@@ -126,11 +126,11 @@ the more examples of result.APIs can visit: [example/example.go](<example/exampl
 
 ### test environment
 
-* CPU: 4 x Intel i7-7700 CPU @ 3.60GHz
+* CPU: Intel i7-7700 CPU @ 3.60GHz (4 cores, 8 threads)
 * OS: CentOS 7.7.1908 x86_64 
+* redis: version 5.0.7 (disable save the DB on disk)
 * data keys: 40 bytes each
 * data values: 1024 bytes each 
-* redis-server: 5.0.7 (disable save the DB on disk)
 
 ### typical performance in client num with 1, 10 and 50:
 
